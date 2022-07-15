@@ -1,0 +1,333 @@
+body {
+    background-image: url("imgs/dark-grunge-texture_1048-4055.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: Sans-serif;
+}
+
+ul {
+    padding: 0;
+}
+
+.title {
+    text-align: center;
+    color: lightgray;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.list1 img {
+    width: 40px;
+    height: 40px;
+    padding-top: 20px;
+}
+.list2 img {
+    width: 40px;
+    height: 40px;
+    padding-top: 20px;
+}
+
+.header {
+    text-align:center;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+.list1, .list2, .title{
+    display:inline;
+}
+
+.variation-list img {
+    width: 90px;
+    height: 50px;
+}
+.variation-list h2 {
+    color: white;
+}
+
+.variation-list li{
+    display: inline-block;
+    margin: 15px;
+}
+.variation-list {
+    text-align: center;
+}
+
+.all {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: white;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding-bottom: 40px;
+
+}
+
+.title {
+    font-size: 22px;
+    text-transform: uppercase;
+
+}
+.titleIngredients span {
+    font-size: 12px;
+}
+.ingredients-list {
+    padding: 0;
+}
+.ingredients-list li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #a5a1a3;
+    align-items: center;
+    padding: 8px;
+}
+.left, .middle, .right {
+    width: 32%;
+}
+
+.text-ingredients {
+    text-align: center;
+}
+.btn-plus {
+    background: rgba(105, 199, 8, 0.91);
+    color:#fff;
+    border:none;
+    position:relative;
+    height:45px;
+    font-size:1.6em;
+    cursor:pointer;
+    transition:800ms ease all;
+    outline:none;
+    width: 45px;
+    box-shadow: -2px 10px 19px 8px rgba(31,225,87,0.14);
+    -webkit-box-shadow: -2px 10px 19px 8px rgba(31,225,87,0.14);
+    -moz-box-shadow: -2px 10px 19px 8px rgba(31,225,87,0.14);
+}
+
+.summary li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #787376;
+}
+
+.text-right {
+    float: right;
+}
+
+.sum-ingredients {
+    width: 100%;
+}
+
+.color-grey {
+    color: #787376;
+}
+
+.btn-remove {
+    background: #787376;
+    color: rgba(255, 255, 255, 0.39);
+    border:none;
+    position:relative;
+    height:25px;
+    font-size:1em;
+    cursor:pointer;
+    transition:800ms ease all;
+    outline:none;
+    width: 25px;
+    margin-left: 20px;
+}
+
+.sum-of-all {
+    color: lightgray;
+}
+
+.qty-order {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.qty {
+    border: 1px solid #787376;
+    padding: 10px;
+
+}
+
+.btn-transparent {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.39);
+    border:none;
+    position:relative;
+    height:25px;
+    font-size:1em;
+    cursor:pointer;
+    transition:800ms ease all;
+    outline:none;
+    width: 25px;
+}
+
+.input-value {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.39);
+    text-align: center;
+    outline:none;
+    width: 40px;
+}
+
+.order-btn {
+    background: rgba(105, 199, 8, 0.91);
+    color: rgb(255, 255, 255);
+    border:none;
+    position:relative;
+    height:47px;
+    font-size:1em;
+    cursor:pointer;
+    transition:800ms ease all;
+    outline:none;
+    width: 100%;
+    box-shadow: -2px 10px 19px 8px rgba(31,225,87,0.14);
+    -webkit-box-shadow: -2px 10px 19px 8px rgba(31,225,87,0.14);
+    -moz-box-shadow: -2px 10px 19px 8px rgba(31,225,87,0.14);
+    text-transform: uppercase;
+    text-align: left;
+}
+
+.order-btn img{
+    margin-left: 15px;
+    margin-top: 3px;
+
+}
+
+.order {
+    width: 62%;
+}
+
+.center {
+    position: absolute;
+    top: 14px;
+    left: 95px;
+}
+
+button {
+    border-radius: 5px;
+}
+
+.middle {
+    position: relative;
+
+}
+button{
+    width:200px;
+    height:70px;
+    background: linear-gradient(to left top, #c32c71 50%, #b33771 50%);
+    border-style: none;
+    color:#fff;
+    font-size: 23px;
+    letter-spacing: 3px;
+    font-family: 'Lato';
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    padding: 0px;
+    overflow: hidden;
+    transition: all .5s;
+    box-shadow: 0px 1px 2px rgba(0,0,0,.2);
+}
+button span{
+    position: absolute;
+    display: block;
+}
+button span:nth-child(1){
+    height: 3px;
+    width:200px;
+    top:0px;
+    left:-200px;
+    background: linear-gradient(to right, rgba(0,0,0,0), #f6e58d);
+    border-top-right-radius: 1px;
+    border-bottom-right-radius: 1px;
+    animation: span1 2s linear infinite;
+    animation-delay: 1s;
+}
+
+@keyframes span1{
+    0%{
+        left:-200px
+    }
+    100%{
+        left:200px;
+    }
+}
+button span:nth-child(2){
+    height: 70px;
+    width: 3px;
+    top:-70px;
+    right:0px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0), #f6e58d);
+    border-bottom-left-radius: 1px;
+    border-bottom-right-radius: 1px;
+    animation: span2 2s linear infinite;
+    animation-delay: 2s;
+}
+@keyframes span2{
+    0%{
+        top:-70px;
+    }
+    100%{
+        top:70px;
+    }
+}
+button span:nth-child(3){
+    height:3px;
+    width:200px;
+    right:-200px;
+    bottom: 0px;
+    background: linear-gradient(to left, rgba(0,0,0,0), #f6e58d);
+    border-top-left-radius: 1px;
+    border-bottom-left-radius: 1px;
+    animation: span3 2s linear infinite;
+    animation-delay: 3s;
+}
+@keyframes span3{
+    0%{
+        right:-200px;
+    }
+    100%{
+        right: 200px;
+    }
+}
+
+button span:nth-child(4){
+    height:70px;
+    width:3px;
+    bottom:-70px;
+    left:0px;
+    background: linear-gradient(to top, rgba(0,0,0,0), #f6e58d);
+    border-top-right-radius: 1px;
+    border-top-left-radius: 1px;
+    animation: span4 2s linear infinite;
+    animation-delay: 4s;
+}
+@keyframes span4{
+    0%{
+        bottom: -70px;
+    }
+    100%{
+        bottom:70px;
+    }
+}
+
+button:hover{
+    transition: all .5s;
+    transform: rotate(-3deg) scale(1.1);
+    box-shadow: 0px 3px 5px rgba(0,0,0,.4);
+}
+button:hover span{
+    animation-play-state: paused;
+}
+
