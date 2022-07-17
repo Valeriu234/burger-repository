@@ -9,20 +9,37 @@ const divLeft = document.querySelector('div.left');
 const removeBtn = document.querySelector('button.btn-remove');
 const btnPlus = document.querySelectorAll('button.btn-plus');
 const summaryUL = document.querySelector('ul.summary');
-const selectedProducts = [];
+let selectedProducts = [];
 let suma = 0;
 let totalWeight = 0;
-const selectedProductsImages =[];
-const ulBurgerImages =document.querySelector('ul.burger-images-craft');
+let selectedProductsImages =[];
+const divBurgerImages =document.querySelector('div.burger-images-craft');
+const imgBun1 =document.createElement('img');
+imgBun1.classList.add('burger-ingredient');
+imgBun1.setAttribute('src', 'imgs/bulkatop-removebg-preview.png');
+const imgBun2 =document.createElement('img');
+imgBun2.setAttribute('src', 'imgs/bulkabotpng-removebg-preview.png');
+imgBun2.classList.add('burger-ingredient');
+const imgBurgerMeat = document.createElement('img');
+imgBurgerMeat.setAttribute('src','imgs/burger_meat.png');
+imgBurgerMeat.classList.add('burger-ingredient');
+const imgCheeseSlice = document.createElement('img');
+imgCheeseSlice.setAttribute('src','imgs/cheese_slice.png');
+imgCheeseSlice.classList.add('burger-ingredient');
+const imgTomatoSlice = document.createElement('img');
+imgTomatoSlice.setAttribute('src', 'imgs/tomato_slice.png');
+imgTomatoSlice.classList.add('burger-ingredient');
+const imgSaladLeaf = document.createElement('img');
+imgSaladLeaf.setAttribute('src', 'imgs/salad_leaf.png');
+imgSaladLeaf.classList.add('burger-ingredient');
 //Creez un array de obiecte
-
 const ingrediente = [
     {
     name:'Bun1',
     price: 5,
     order: 1,
     weight: 45,
-        imgsrc : 'imgs/bulkatop-removebg-preview.png'
+        img : imgBun1
 
     },
     {
@@ -30,35 +47,35 @@ const ingrediente = [
         price: 15,
         order: 5,
         weight: 35,
-        imgsrc: 'imgs/burger_meat.png'
+        img: imgBurgerMeat
      },
     {
         name:'Cheese',
         price:10,
         order: 4,
         weight: 20,
-        imgsrc: 'imgs/cheese_slice.png'
+        img : imgCheeseSlice
     },
     {
         name:'Salad',
         price: 5,
         order: 3,
         weight: 15,
-        imgsrc: 'imgs/salad_leaf.png'
+        img: imgSaladLeaf
     },
     {
         name:'Tomato',
         price: 5,
         order: 2,
         weight: 10,
-        imgsrc: 'imgs/tomato_slice.png'
+        img: imgTomatoSlice
     },
     {
         name: 'Bun2',
         price: 5,
         order: 6,
         weight: 45,
-        imgsrc: 'imgs/bulkabotpng-removebg-preview.png'
+        img: imgBun2
 
     },
     {
@@ -78,17 +95,21 @@ const ingrediente = [
 
 //Am creat un eventListner pentru imaginea de sus cu 'Buns'
 buns.addEventListener('click', () => {
+    //Stergerea elementelor existente pentru a nu crea probleme atunci cind creem alte elemente
     const lastHeading = document.querySelector("h3.title");
     lastHeading.remove();
     const lastUl = document.querySelector('ul.ingredients-list');
     lastUl.remove();
+    //Crearea elementelor h3 atribuirea textului si a clasei class-list
     const heading = document.createElement('h3');
     divLeft.append(heading)
     heading.classList.add('title');
     heading.textContent = 'Buns: Choose one of'
+    //Crearea listei nenumerotate si atribuirea clasei ingredients-list
     const unorderedList = document.createElement('ul');
     divLeft.append(unorderedList);
     unorderedList.classList.add('ingredients-list');
+    //Crearea list itemului si atribuirea lui in unordered list creat anterior
     const listItem = document.createElement('li');
     unorderedList.append(listItem);
     const divListImage = document.createElement('div');
@@ -117,26 +138,21 @@ buns.addEventListener('click', () => {
     button.textContent = '+';
  const obj = ingrediente[7];
 button.addEventListener("click", () => {
-    selectedProductsImages.push(ingrediente[1],ingrediente[5]);
+    selectedProductsImages.push(ingrediente[0],ingrediente[5]);
     console.log(selectedProductsImages);
-    selectedProducts.sort((a,b) => {
+    selectedProductsImages.sort((a,b) => {
         return a.order - b.order
     }).forEach(item => {
-        let {imgsrc} = item
-        const liImageItem = document.createElement('li');
-        ulBurgerImages.append(liImageItem);
-        const imageIngredient = document.createElement('img');
-        liImageItem.append(imageIngredient);
-        imageIngredient.classList.add('burger-ingredient');
-        imageIngredient.setAttribute('src',imgsrc);
+       divBurgerImages.append(item['img']);
     })
+
     selectedProducts.push(ingrediente[7]);
     let headingSumOfAll = document.querySelector('h2.sum-of-all');
     let paragraphForWeight = document.querySelector('p.sum-of-weight');
     selectedProducts.forEach(item => {
         suma += item.price;
         totalWeight += item.weight;
-        headingSumOfAll.textContent =`Suma : ${suma}`;
+        headingSumOfAll.textContent =`Suma : ${suma} MDL`;
         paragraphForWeight.textContent =`Weight : ${totalWeight}gr`;
     })
     suma = 0;
@@ -166,6 +182,20 @@ button.addEventListener("click", () => {
     removeButton.classList.add('btn-remove');
     removeButton.textContent = 'X';
     removeButton.addEventListener('click', () => {
+        //Stergerea obiectelor din array si din html
+        const imageBulca1 = selectedProductsImages.indexOf(ingrediente[0]);
+        const imageBulca2 = selectedProductsImages.indexOf(ingrediente[5]);
+        selectedProductsImages.splice(imageBulca1,2);
+        selectedProductsImages.splice(imageBulca2,1);
+
+        imgBun1.remove();
+        imgBun2.remove();
+
+        //Sortarea arrayului dupa ce au fost sterse obiectele anumite
+        selectedProductsImages.sort((a,b) => {
+            return a.order - b.order
+        })
+
         const listItemRight = document.querySelector('li.buns');
         listItemRight.remove();
         const sauce = selectedProducts.indexOf(ingrediente[7]);
@@ -177,7 +207,7 @@ button.addEventListener("click", () => {
             selectedProducts.forEach(item => {
                 suma += item.price;
                 totalWeight += item.weight;
-                headingSumOfAll.textContent = `Suma : ${suma}`;
+                headingSumOfAll.textContent = `Suma : ${suma} MDL`;
                 paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
 
             })
@@ -187,7 +217,7 @@ button.addEventListener("click", () => {
         } else{
             suma = 0;
             totalWeight = 0;
-            headingSumOfAll.textContent = `Suma : ${suma}`;
+            headingSumOfAll.textContent = `Suma : ${suma} MDL`;
             paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
         }
     })
@@ -238,13 +268,21 @@ meats.addEventListener('click', () => {
     button.textContent = '+';
     const obj = ingrediente[1];
     button.addEventListener("click", () => {
+        selectedProductsImages.push(ingrediente[1]);
+        console.log(selectedProductsImages);
+        selectedProductsImages.sort((a,b) => {
+            return a.order - b.order
+        }).forEach(item => {
+            divBurgerImages.append(item['img']);
+        })
+
         selectedProducts.push(ingrediente[1]);
         let headingSumOfAll = document.querySelector('h2.sum-of-all');
         let paragraphForWeight = document.querySelector('p.sum-of-weight');
         selectedProducts.forEach(item => {
             suma += item.price;
             totalWeight += item.weight;
-            headingSumOfAll.textContent =`Suma : ${suma}`;
+            headingSumOfAll.textContent =`Suma : ${suma} MDL`;
             paragraphForWeight.textContent =`Weight : ${totalWeight}gr`;
         })
         suma = 0;
@@ -274,6 +312,13 @@ meats.addEventListener('click', () => {
         removeButton.classList.add('btn-remove');
         removeButton.textContent = 'X';
         removeButton.addEventListener('click', () => {
+            const imageMeat = selectedProductsImages.indexOf(ingrediente[1]);
+            selectedProductsImages.splice(imageMeat,1);
+       imgBurgerMeat.remove();
+
+            selectedProductsImages.sort((a,b) => {
+                return a.order - b.order
+            })
             const listItemRight = document.querySelector('li.meat');
             listItemRight.remove();
             const sauce = selectedProducts.indexOf(ingrediente[1]);
@@ -284,7 +329,7 @@ meats.addEventListener('click', () => {
                 selectedProducts.forEach(item => {
                     suma += item.price;
                     totalWeight += item.weight;
-                    headingSumOfAll.textContent = `Suma : ${suma}`;
+                    headingSumOfAll.textContent = `Suma : ${suma} MDL`;
                     paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
 
                 })
@@ -293,7 +338,7 @@ meats.addEventListener('click', () => {
             } else {
                 suma = 0;
                 totalWeight = 0;
-                headingSumOfAll.textContent = `Suma : ${suma}`;
+                headingSumOfAll.textContent = `Suma : ${suma} MDL`;
                 paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
             }
         })
@@ -342,13 +387,20 @@ cheeses.addEventListener('click', () => {
     button.textContent = '+';
     const obj = ingrediente[2];
     button.addEventListener("click", () => {
+        selectedProductsImages.push(ingrediente[2]);
+        console.log(selectedProductsImages);
+        selectedProductsImages.sort((a,b) => {
+            return a.order - b.order
+        }).forEach(item => {
+            divBurgerImages.append(item['img']);
+        })
         selectedProducts.push(ingrediente[2]);
         let headingSumOfAll = document.querySelector('h2.sum-of-all');
         let paragraphForWeight = document.querySelector('p.sum-of-weight');
         selectedProducts.forEach(item => {
             suma += item.price;
             totalWeight += item.weight;
-            headingSumOfAll.textContent =`Suma : ${suma}`;
+            headingSumOfAll.textContent =`Suma : ${suma} MDL`;
             paragraphForWeight.textContent =`Weight : ${totalWeight}gr`;
         })
         suma = 0;
@@ -378,6 +430,17 @@ cheeses.addEventListener('click', () => {
         removeButton.classList.add('btn-remove');
         removeButton.textContent = 'X';
         removeButton.addEventListener('click', () => {
+            //Stergerea ingredientelor
+            const cheese = selectedProductsImages.indexOf(ingrediente[2]);
+
+            selectedProductsImages.splice(cheese,1);
+
+            imgCheeseSlice.remove();
+
+            //Sortarea ingredientelor ramase
+            selectedProductsImages.sort((a,b) => {
+                return a.order - b.order
+            })
             const listItemRight = document.querySelector('li.cheese');
             listItemRight.remove();
             const sauce = selectedProducts.indexOf(ingrediente[2]);
@@ -388,7 +451,7 @@ cheeses.addEventListener('click', () => {
                 selectedProducts.forEach(item => {
                     suma += item.price;
                     totalWeight += item.weight;
-                    headingSumOfAll.textContent = `Suma : ${suma}`;
+                    headingSumOfAll.textContent = `Suma : ${suma} MDL`;
                     paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
 
                 })
@@ -398,7 +461,7 @@ cheeses.addEventListener('click', () => {
             } else{
                 suma = 0;
                 totalWeight = 0;
-                headingSumOfAll.textContent = `Suma : ${suma}`;
+                headingSumOfAll.textContent = `Suma : ${suma} MDL`;
                 paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
             }
         })
@@ -447,13 +510,20 @@ salad.addEventListener('click', () => {
     button.textContent = '+';
     const obj = ingrediente[3];
     button.addEventListener("click", () => {
+        selectedProductsImages.push(ingrediente[3]);
+        console.log(selectedProductsImages);
+        selectedProductsImages.sort((a,b) => {
+            return a.order - b.order
+        }).forEach(item => {
+            divBurgerImages.append(item['img']);
+        })
         selectedProducts.push(ingrediente[3]);
         let headingSumOfAll = document.querySelector('h2.sum-of-all');
         let paragraphForWeight = document.querySelector('p.sum-of-weight');
         selectedProducts.forEach(item => {
             suma += item.price;
             totalWeight += item.weight;
-            headingSumOfAll.textContent =`Suma : ${suma}`;
+            headingSumOfAll.textContent =`Suma : ${suma} MDL`;
             paragraphForWeight.textContent =`Weight : ${totalWeight}gr`;
         })
         suma = 0;
@@ -483,6 +553,17 @@ salad.addEventListener('click', () => {
         removeButton.classList.add('btn-remove');
         removeButton.textContent = 'X';
         removeButton.addEventListener('click', () => {
+            //Stergerea ingredientelor
+            const salads = selectedProductsImages.indexOf(ingrediente[3]);
+
+            selectedProductsImages.splice(salads,1);
+
+            imgSaladLeaf.remove();
+
+            //Sortarea ingredientelor ramase
+            selectedProductsImages.sort((a,b) => {
+                return a.order - b.order
+            })
             const listItemRight = document.querySelector('li.salad');
             listItemRight.remove();
             const sauce = selectedProducts.indexOf(ingrediente[3]);
@@ -493,7 +574,7 @@ salad.addEventListener('click', () => {
                 selectedProducts.forEach(item => {
                     suma += item.price;
                     totalWeight += item.weight;
-                    headingSumOfAll.textContent = `Suma : ${suma}`;
+                    headingSumOfAll.textContent = `Suma : ${suma} MDL`;
                     paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
 
                 })
@@ -503,7 +584,7 @@ salad.addEventListener('click', () => {
             } else{
                 suma = 0;
                 totalWeight = 0;
-                headingSumOfAll.textContent = `Suma : ${suma}`;
+                headingSumOfAll.textContent = `Suma : ${suma} MDL`;
                 paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
             }
         })
@@ -551,13 +632,20 @@ vegetable.addEventListener('click', () => {
     button.textContent = '+';
     const obj = ingrediente[4];
     button.addEventListener("click", () => {
+        selectedProductsImages.push(ingrediente[4]);
+        console.log(selectedProductsImages);
+        selectedProductsImages.sort((a,b) => {
+            return a.order - b.order
+        }).forEach(item => {
+            divBurgerImages.append(item['img']);
+        })
         selectedProducts.push(ingrediente[4]);
         let headingSumOfAll = document.querySelector('h2.sum-of-all');
         let paragraphForWeight = document.querySelector('p.sum-of-weight');
         selectedProducts.forEach(item => {
             suma += item.price;
             totalWeight += item.weight;
-            headingSumOfAll.textContent =`Suma : ${suma}`;
+            headingSumOfAll.textContent =`Suma : ${suma} MDL`;
             paragraphForWeight.textContent =`Weight : ${totalWeight}gr`;
         })
         suma = 0;
@@ -588,6 +676,16 @@ vegetable.addEventListener('click', () => {
         removeButton.textContent = 'X';
 
         removeButton.addEventListener('click', () => {
+            const tomato = selectedProductsImages.indexOf(ingrediente[4]);
+
+            selectedProductsImages.splice(tomato,1);
+
+            imgTomatoSlice.remove();
+
+            //Sortarea ingredientelor ramase
+            selectedProductsImages.sort((a,b) => {
+                return a.order - b.order
+            })
             const listItemRight = document.querySelector('li.tomato');
             listItemRight.remove();
             const sauce = selectedProducts.indexOf(ingrediente[4]);
@@ -598,7 +696,7 @@ vegetable.addEventListener('click', () => {
                 selectedProducts.forEach(item => {
                     suma += item.price;
                     totalWeight += item.weight;
-                    headingSumOfAll.textContent = `Suma : ${suma}`;
+                    headingSumOfAll.textContent = `Suma : ${suma} MDL`;
                     paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
 
                 })
@@ -608,7 +706,7 @@ vegetable.addEventListener('click', () => {
             } else{
                 suma = 0;
                 totalWeight = 0;
-                headingSumOfAll.textContent = `Suma : ${suma}`;
+                headingSumOfAll.textContent = `Suma : ${suma} MDL`;
                 paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
             }
         })
@@ -661,7 +759,7 @@ sauce.addEventListener('click', () => {
         selectedProducts.forEach(item => {
             suma += item.price;
             totalWeight += item.weight;
-            headingSumOfAll.textContent =`Suma : ${suma}`;
+            headingSumOfAll.textContent =`Suma : ${suma} MDL`;
             paragraphForWeight.textContent =`Weight : ${totalWeight}gr`;
         })
         suma = 0;
@@ -701,7 +799,7 @@ sauce.addEventListener('click', () => {
                 selectedProducts.forEach(item => {
                     suma += item.price;
                     totalWeight += item.weight;
-                    headingSumOfAll.textContent = `Suma : ${suma}`;
+                    headingSumOfAll.textContent = `Suma : ${suma} MDL`;
                     paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
 
                 })
@@ -711,7 +809,7 @@ sauce.addEventListener('click', () => {
             } else{
                 suma = 0;
                 totalWeight = 0;
-                headingSumOfAll.textContent = `Suma : ${suma}`;
+                headingSumOfAll.textContent = `Suma : ${suma} MDL`;
                 paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
             }
         })
