@@ -9,7 +9,11 @@ const divLeft = document.querySelector('div.left');
 const removeBtn = document.querySelector('button.btn-remove');
 const btnPlus = document.querySelectorAll('button.btn-plus');
 const summaryUL = document.querySelector('ul.summary');
-
+const selectedProducts = [];
+let suma = 0;
+let totalWeight = 0;
+const selectedProductsImages =[];
+const ulBurgerImages =document.querySelector('ul.burger-images-craft');
 //Creez un array de obiecte
 
 const ingrediente = [
@@ -17,37 +21,45 @@ const ingrediente = [
     name:'Bun1',
     price: 5,
     order: 1,
-    weight: 45
+    weight: 45,
+        imgsrc : 'imgs/bulkatop-removebg-preview.png'
+
     },
     {
         name:'Meat',
         price: 15,
         order: 5,
-        weight: 35
+        weight: 35,
+        imgsrc: 'imgs/burger_meat.png'
      },
     {
         name:'Cheese',
         price:10,
         order: 4,
-        weight: 20
+        weight: 20,
+        imgsrc: 'imgs/cheese_slice.png'
     },
     {
         name:'Salad',
         price: 5,
         order: 3,
-        weight: 15
+        weight: 15,
+        imgsrc: 'imgs/salad_leaf.png'
     },
     {
         name:'Tomato',
         price: 5,
         order: 2,
-        weight: 10
+        weight: 10,
+        imgsrc: 'imgs/tomato_slice.png'
     },
     {
         name: 'Bun2',
         price: 5,
         order: 6,
-        weight: 45
+        weight: 45,
+        imgsrc: 'imgs/bulkabotpng-removebg-preview.png'
+
     },
     {
         name: 'Sauce',
@@ -66,6 +78,10 @@ const ingrediente = [
 
 //Am creat un eventListner pentru imaginea de sus cu 'Buns'
 buns.addEventListener('click', () => {
+    const lastHeading = document.querySelector("h3.title");
+    lastHeading.remove();
+    const lastUl = document.querySelector('ul.ingredients-list');
+    lastUl.remove();
     const heading = document.createElement('h3');
     divLeft.append(heading)
     heading.classList.add('title');
@@ -101,6 +117,30 @@ buns.addEventListener('click', () => {
     button.textContent = '+';
  const obj = ingrediente[7];
 button.addEventListener("click", () => {
+    selectedProductsImages.push(ingrediente[1],ingrediente[5]);
+    console.log(selectedProductsImages);
+    selectedProducts.sort((a,b) => {
+        return a.order - b.order
+    }).forEach(item => {
+        let {imgsrc} = item
+        const liImageItem = document.createElement('li');
+        ulBurgerImages.append(liImageItem);
+        const imageIngredient = document.createElement('img');
+        liImageItem.append(imageIngredient);
+        imageIngredient.classList.add('burger-ingredient');
+        imageIngredient.setAttribute('src',imgsrc);
+    })
+    selectedProducts.push(ingrediente[7]);
+    let headingSumOfAll = document.querySelector('h2.sum-of-all');
+    let paragraphForWeight = document.querySelector('p.sum-of-weight');
+    selectedProducts.forEach(item => {
+        suma += item.price;
+        totalWeight += item.weight;
+        headingSumOfAll.textContent =`Suma : ${suma}`;
+        paragraphForWeight.textContent =`Weight : ${totalWeight}gr`;
+    })
+    suma = 0;
+    totalWeight = 0;
     let {name,price,weight,order} = obj;
     const listItem = document.createElement('li');
     summaryUL.append(listItem);
@@ -128,6 +168,28 @@ button.addEventListener("click", () => {
     removeButton.addEventListener('click', () => {
         const listItemRight = document.querySelector('li.buns');
         listItemRight.remove();
+        const sauce = selectedProducts.indexOf(ingrediente[7]);
+        selectedProducts.splice(sauce,1);
+        let headingSumOfAll = document.querySelector('h2.sum-of-all');
+        let paragraphForWeight = document.querySelector('p.sum-of-weight');
+        console.log(selectedProducts);
+        if (selectedProducts.length > 0) {
+            selectedProducts.forEach(item => {
+                suma += item.price;
+                totalWeight += item.weight;
+                headingSumOfAll.textContent = `Suma : ${suma}`;
+                paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
+
+            })
+            suma = 0;
+            totalWeight = 0;
+
+        } else{
+            suma = 0;
+            totalWeight = 0;
+            headingSumOfAll.textContent = `Suma : ${suma}`;
+            paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
+        }
     })
 })
 
@@ -176,6 +238,17 @@ meats.addEventListener('click', () => {
     button.textContent = '+';
     const obj = ingrediente[1];
     button.addEventListener("click", () => {
+        selectedProducts.push(ingrediente[1]);
+        let headingSumOfAll = document.querySelector('h2.sum-of-all');
+        let paragraphForWeight = document.querySelector('p.sum-of-weight');
+        selectedProducts.forEach(item => {
+            suma += item.price;
+            totalWeight += item.weight;
+            headingSumOfAll.textContent =`Suma : ${suma}`;
+            paragraphForWeight.textContent =`Weight : ${totalWeight}gr`;
+        })
+        suma = 0;
+        totalWeight = 0;
         let {name,price,weight,order} = obj;
         const listItem = document.createElement('li');
         summaryUL.append(listItem);
@@ -203,6 +276,26 @@ meats.addEventListener('click', () => {
         removeButton.addEventListener('click', () => {
             const listItemRight = document.querySelector('li.meat');
             listItemRight.remove();
+            const sauce = selectedProducts.indexOf(ingrediente[1]);
+            selectedProducts.splice(sauce,1);
+            let headingSumOfAll = document.querySelector('h2.sum-of-all');
+            let paragraphForWeight = document.querySelector('p.sum-of-weight');
+            if (selectedProducts.length > 0) {
+                selectedProducts.forEach(item => {
+                    suma += item.price;
+                    totalWeight += item.weight;
+                    headingSumOfAll.textContent = `Suma : ${suma}`;
+                    paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
+
+                })
+                suma = 0;
+                totalWeight = 0;
+            } else {
+                suma = 0;
+                totalWeight = 0;
+                headingSumOfAll.textContent = `Suma : ${suma}`;
+                paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
+            }
         })
     })
 
@@ -249,6 +342,17 @@ cheeses.addEventListener('click', () => {
     button.textContent = '+';
     const obj = ingrediente[2];
     button.addEventListener("click", () => {
+        selectedProducts.push(ingrediente[2]);
+        let headingSumOfAll = document.querySelector('h2.sum-of-all');
+        let paragraphForWeight = document.querySelector('p.sum-of-weight');
+        selectedProducts.forEach(item => {
+            suma += item.price;
+            totalWeight += item.weight;
+            headingSumOfAll.textContent =`Suma : ${suma}`;
+            paragraphForWeight.textContent =`Weight : ${totalWeight}gr`;
+        })
+        suma = 0;
+        totalWeight = 0;
         let {name,price,weight,order} = obj;
         const listItem = document.createElement('li');
         summaryUL.append(listItem);
@@ -276,6 +380,27 @@ cheeses.addEventListener('click', () => {
         removeButton.addEventListener('click', () => {
             const listItemRight = document.querySelector('li.cheese');
             listItemRight.remove();
+            const sauce = selectedProducts.indexOf(ingrediente[2]);
+            selectedProducts.splice(sauce,1);
+            let headingSumOfAll = document.querySelector('h2.sum-of-all');
+            let paragraphForWeight = document.querySelector('p.sum-of-weight');
+            if (selectedProducts.length > 0) {
+                selectedProducts.forEach(item => {
+                    suma += item.price;
+                    totalWeight += item.weight;
+                    headingSumOfAll.textContent = `Suma : ${suma}`;
+                    paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
+
+                })
+                suma = 0;
+                totalWeight = 0;
+
+            } else{
+                suma = 0;
+                totalWeight = 0;
+                headingSumOfAll.textContent = `Suma : ${suma}`;
+                paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
+            }
         })
     })
 
@@ -322,6 +447,17 @@ salad.addEventListener('click', () => {
     button.textContent = '+';
     const obj = ingrediente[3];
     button.addEventListener("click", () => {
+        selectedProducts.push(ingrediente[3]);
+        let headingSumOfAll = document.querySelector('h2.sum-of-all');
+        let paragraphForWeight = document.querySelector('p.sum-of-weight');
+        selectedProducts.forEach(item => {
+            suma += item.price;
+            totalWeight += item.weight;
+            headingSumOfAll.textContent =`Suma : ${suma}`;
+            paragraphForWeight.textContent =`Weight : ${totalWeight}gr`;
+        })
+        suma = 0;
+        totalWeight = 0;
         let {name,price,weight,order} = obj;
         const listItem = document.createElement('li');
         summaryUL.append(listItem);
@@ -349,6 +485,27 @@ salad.addEventListener('click', () => {
         removeButton.addEventListener('click', () => {
             const listItemRight = document.querySelector('li.salad');
             listItemRight.remove();
+            const sauce = selectedProducts.indexOf(ingrediente[3]);
+            selectedProducts.splice(sauce,1);
+            let headingSumOfAll = document.querySelector('h2.sum-of-all');
+            let paragraphForWeight = document.querySelector('p.sum-of-weight');
+            if (selectedProducts.length > 0) {
+                selectedProducts.forEach(item => {
+                    suma += item.price;
+                    totalWeight += item.weight;
+                    headingSumOfAll.textContent = `Suma : ${suma}`;
+                    paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
+
+                })
+                suma = 0;
+                totalWeight = 0;
+
+            } else{
+                suma = 0;
+                totalWeight = 0;
+                headingSumOfAll.textContent = `Suma : ${suma}`;
+                paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
+            }
         })
     })
 
@@ -394,6 +551,17 @@ vegetable.addEventListener('click', () => {
     button.textContent = '+';
     const obj = ingrediente[4];
     button.addEventListener("click", () => {
+        selectedProducts.push(ingrediente[4]);
+        let headingSumOfAll = document.querySelector('h2.sum-of-all');
+        let paragraphForWeight = document.querySelector('p.sum-of-weight');
+        selectedProducts.forEach(item => {
+            suma += item.price;
+            totalWeight += item.weight;
+            headingSumOfAll.textContent =`Suma : ${suma}`;
+            paragraphForWeight.textContent =`Weight : ${totalWeight}gr`;
+        })
+        suma = 0;
+        totalWeight = 0;
         let {name,price,weight,order} = obj;
         const listItem = document.createElement('li');
         summaryUL.append(listItem);
@@ -422,8 +590,28 @@ vegetable.addEventListener('click', () => {
         removeButton.addEventListener('click', () => {
             const listItemRight = document.querySelector('li.tomato');
             listItemRight.remove();
+            const sauce = selectedProducts.indexOf(ingrediente[4]);
+            selectedProducts.splice(sauce,1);
+            let headingSumOfAll = document.querySelector('h2.sum-of-all');
+            let paragraphForWeight = document.querySelector('p.sum-of-weight');
+            if (selectedProducts.length > 0) {
+                selectedProducts.forEach(item => {
+                    suma += item.price;
+                    totalWeight += item.weight;
+                    headingSumOfAll.textContent = `Suma : ${suma}`;
+                    paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
+
+                })
+                suma = 0;
+                totalWeight = 0;
+
+            } else{
+                suma = 0;
+                totalWeight = 0;
+                headingSumOfAll.textContent = `Suma : ${suma}`;
+                paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
+            }
         })
-    })
 
 })
 
@@ -467,6 +655,17 @@ sauce.addEventListener('click', () => {
     button.textContent = '+';
     const obj = ingrediente[6];
     button.addEventListener("click", () => {
+        selectedProducts.push(ingrediente[6]);
+        let headingSumOfAll = document.querySelector('h2.sum-of-all');
+        let paragraphForWeight = document.querySelector('p.sum-of-weight');
+        selectedProducts.forEach(item => {
+            suma += item.price;
+            totalWeight += item.weight;
+            headingSumOfAll.textContent =`Suma : ${suma}`;
+            paragraphForWeight.textContent =`Weight : ${totalWeight}gr`;
+        })
+        suma = 0;
+        totalWeight = 0;
         let {name,price,weight,order} = obj;
         const listItem = document.createElement('li');
         summaryUL.append(listItem);
@@ -494,9 +693,29 @@ sauce.addEventListener('click', () => {
         removeButton.addEventListener('click', () => {
             const listItemRight = document.querySelector('li.sauce');
             listItemRight.remove();
-        })
-    })
+   const sauce = selectedProducts.indexOf(ingrediente[6]);
+            selectedProducts.splice(sauce,1);
+            let headingSumOfAll = document.querySelector('h2.sum-of-all');
+            let paragraphForWeight = document.querySelector('p.sum-of-weight');
+            if (selectedProducts.length > 0) {
+                selectedProducts.forEach(item => {
+                    suma += item.price;
+                    totalWeight += item.weight;
+                    headingSumOfAll.textContent = `Suma : ${suma}`;
+                    paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
 
-})
+                })
+                suma = 0;
+                totalWeight = 0;
+
+            } else{
+                suma = 0;
+                totalWeight = 0;
+                headingSumOfAll.textContent = `Suma : ${suma}`;
+                paragraphForWeight.textContent = `Weight : ${totalWeight}gr`;
+            }
+        })
+
+})})})
 
 

@@ -331,3 +331,12 @@ button:hover span{
     animation-play-state: paused;
 }
 
+.burger-images-craft {
+    display: flex;
+    flex-direction: column;
+}
+
+.burger-ingredient {
+    width: 100%;
+    height: 300px;
+}
